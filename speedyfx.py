@@ -16,7 +16,10 @@ class SpeedyFx:
                 fold_table[i] = ord(j.lower())
             else:
                 fold_table[i] = 0
-            rand_table[i] = ((rand_table[i - 1] * 0x10a860c1) & 0xffffffff) % 0xfffffffb
+            rand_table[i] = rand_table[i - 1]
+            rand_table[i] *= 0x10a860c1
+            rand_table[i] &= 0xffffffff
+            rand_table[i] %= 0xfffffffb
 
         for i in xrange(self.length):
             if (fold_table[i]):
@@ -63,4 +66,6 @@ class SpeedyFx:
         return minhash
 
 sfx = SpeedyFx()
-print sfx.hash_min('To be or not to be?')
+str = 'To be or not to be?'
+print sfx.hash(str)
+print sfx.hash_min(str)
